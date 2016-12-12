@@ -1,0 +1,7 @@
+th.selected {
+    background-color: #c1fffc;
+}
+
+th {
+    cursor: pointer;
+}
