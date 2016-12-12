@@ -5,3 +5,11 @@ th.selected {
 th {
     cursor: pointer;
 }
+
+.buttons {
+    display: flex;
+}
+
+.buttons button {
+    margin-right: 5px;
+}

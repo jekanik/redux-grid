@@ -1,24 +1,31 @@
 import React from "react";
 import {connect} from "react-redux";
-import {sortBy} from "../actions";
+import * as action from "../actions";
 
 class GridComponent extends React.Component {
     constructor() {
         super();
     }
 
-    componentDidMount() {
-
-    }
-
     handleSort(head) {
         let {dispatch} = this.props;
-        dispatch(sortBy(head));
+        dispatch(action.sortBy(head));
+    }
+
+    handleRecordEdit(index) {
+        let {dispatch} = this.props;
+        dispatch(action.edit(index));
+    }
+
+    handleRecordDelete(index) {
+        let {dispatch} = this.props;
+        dispatch(action.remove(index));
     }
 
     render() {
         let records = this.props.records.map((record, index) => {
-            return <GridRecord record={record} key={index}/>
+            return <GridRecord record={record} key={index} onEdit={this.handleRecordEdit.bind(this, index)}
+                               onDelete={this.handleRecordDelete.bind(this, index)}/>
         });
         let heads = this.props.heads.map((head, index) => {
             return <HeadCell config={head} key={index} handleSort={this.handleSort.bind(this, head)}/>
@@ -56,13 +63,9 @@ export default connect(
 )(GridComponent)
 
 class HeadCell extends React.Component {
-    handleClick(e) {
-        this.props.handleSort();
-    }
-
     render() {
         let {config} = this.props;
-        return <th onClick={this.handleClick.bind(this)} className={config.sorted ? 'selected' : ''}>
+        return <th onClick={this.props.handleSort} className={config.sorted ? 'selected' : ''}>
             {config.name}
         </th>
     }
@@ -81,6 +84,14 @@ class GridRecord extends React.Component {
             </th>
             <th>
                 {record.group}
+            </th>
+            <th className="buttons">
+                <button onClick={this.props.onEdit}>
+                    Edit
+                </button>
+                <button onClick={this.props.onDelete}>
+                    Delete
+                </button>
             </th>
         </tr>
     }

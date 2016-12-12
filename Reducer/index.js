@@ -16,10 +16,19 @@ let headOptions = [
 
 export function grid(state = gridRecords, action) {
     switch (action.type) {
-        case types.SORT:
+        case types.SORT: {
             let newState = [...state];
-            newState.sort(comparator(action.head.sortKey));
+            newState.sort(comparator(action.value.sortKey));
             return newState;
+        }
+        case types.EDIT: {
+            return state;
+        }
+        case types.REMOVE: {
+            let newState = [...state];
+            newState.splice(action.value, 1);
+            return newState;
+        }
         default:
             return state
     }
@@ -31,7 +40,7 @@ export function heads(state = headOptions, action) {
             headOptions.forEach(function (item) {
                 item.sorted = false;
             });
-            action.head.sorted = true;
+            action.value.sorted = true;
             return headOptions;
         default:
             return headOptions
