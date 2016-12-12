@@ -20,3 +20,10 @@ export function remove(index) {
         value: index
     };
 }
+
+export function changeSalary(newValue) {
+    return {
+        type: types.CHANGE_SALARY,
+        value: newValue
+    };
+}

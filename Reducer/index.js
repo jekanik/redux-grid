@@ -29,6 +29,13 @@ export function grid(state = gridRecords, action) {
             newState.splice(action.value, 1);
             return newState;
         }
+        case types.CHANGE_SALARY: {
+            let salary = action.value;
+            return state.map(function (item) {
+                item.percent = Math.round((item.cost / salary) * 10000) / 100;
+                return item;
+            });
+        }
         default:
             return state
     }
@@ -36,14 +43,17 @@ export function grid(state = gridRecords, action) {
 
 export function heads(state = headOptions, action) {
     switch (action.type) {
-        case types.SORT:
-            headOptions.forEach(function (item) {
-                item.sorted = false;
+        case types.SORT: {
+            let opts = JSON.parse(JSON.stringify(headOptions));
+            opts.filter(function (item) {
+                return item.sortKey === action.value.sortKey;
+            }).map(function (item) {
+                return item.sorted = true;
             });
-            action.value.sorted = true;
-            return headOptions;
+            return opts;
+        }
         default:
-            return headOptions
+            return headOptions;
     }
 }
 
