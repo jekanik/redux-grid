@@ -4,11 +4,7 @@ import {Modal, Button} from "react-bootstrap";
 export default class RecordModal extends React.Component {
     constructor() {
         super();
-        this.state = {show: true}
-    }
-
-    show() {
-        this.setState({show: true})
+        this.state = {};
     }
 
     close() {

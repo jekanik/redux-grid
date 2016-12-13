@@ -14,6 +14,7 @@ class GridComponent extends React.Component {
     }
 
     handleRecordEdit(index) {
+        this.refs.recordModal.setState({show: true});
         let {dispatch} = this.props;
         dispatch(action.edit(index));
     }
@@ -51,7 +52,7 @@ class GridComponent extends React.Component {
                 <div>
                     <input type="number" placeholder="Salary" onChange={this.changeSalary.bind(this)}/>
                 </div>
-                <RecordModal/>
+                <RecordModal ref="recordModal"/>
             </div>
         )
     }
