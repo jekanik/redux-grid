@@ -3,7 +3,7 @@ import * as types from "../constants";
 
 const gridRecords = [
     {name: "Train", cost: 12, percent: 25, group: "Traveling"},
-    {name: "Car", cost: 13, percent: 13, group: "Shopping"},
+    {name: "Car", cost: 17, percent: 13, group: "Shopping"},
     {name: "Ship", cost: 14, percent: 45, group: "Meal"}
 ];
 
@@ -14,8 +14,8 @@ function createSortOrderEnum() {
             case e.ASC:
                 return e.DESC;
             case e.DESC:
-                return e.ASC;
             case e.NO:
+            default:
                 return e.ASC;
         }
     };

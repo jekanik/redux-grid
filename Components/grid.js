@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import * as action from "../actions";
+import RecordModal from "./modal";
 
 class GridComponent extends React.Component {
     constructor() {
@@ -50,6 +51,7 @@ class GridComponent extends React.Component {
                 <div>
                     <input type="number" placeholder="Salary" onChange={this.changeSalary.bind(this)}/>
                 </div>
+                <RecordModal/>
             </div>
         )
     }
