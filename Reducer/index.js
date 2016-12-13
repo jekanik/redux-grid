@@ -1,24 +1,42 @@
 import {combineReducers} from "redux";
 import * as types from "../constants";
 
-let gridRecords = [
+const gridRecords = [
     {name: "Train", cost: 12, percent: 25, group: "Traveling"},
     {name: "Car", cost: 13, percent: 13, group: "Shopping"},
     {name: "Ship", cost: 14, percent: 45, group: "Meal"}
 ];
 
-let headOptions = [
-    {name: "Name", sortKey: "name", sorted: false},
-    {name: "Cost", sortKey: "cost", sorted: false},
-    {name: "% from Salary", sortKey: "percent", sorted: false},
-    {name: "Group", sortKey: "group", sorted: false}
+function createSortOrderEnum() {
+    let e = {ASC: 1, DESC: -1, NO: 0};
+    e.next = function (id) {
+        switch (id) {
+            case e.ASC:
+                return e.DESC;
+            case e.DESC:
+                return e.ASC;
+            case e.NO:
+                return e.ASC;
+        }
+    };
+    return Object.freeze(e);
+}
+
+const SortOrder = createSortOrderEnum();
+
+const headOptions = [
+    {name: "Name", sortKey: "name", sorted: false, sortOrder: SortOrder.NO},
+    {name: "Cost", sortKey: "cost", sorted: false, sortOrder: SortOrder.NO},
+    {name: "% from Salary", sortKey: "percent", sorted: false, sortOrder: SortOrder.NO},
+    {name: "Group", sortKey: "group", sorted: false, sortOrder: SortOrder.NO}
 ];
 
 export function grid(state = gridRecords, action) {
     switch (action.type) {
         case types.SORT: {
             let newState = [...state];
-            newState.sort(comparator(action.value.sortKey));
+            let head = action.value;
+            newState.sort(comparator(head.sortKey, SortOrder.next(head.sortOrder)));
             return newState;
         }
         case types.EDIT: {
@@ -48,6 +66,7 @@ export function heads(state = headOptions, action) {
             opts.filter(function (item) {
                 return item.sortKey === action.value.sortKey;
             }).map(function (item) {
+                item.sortOrder = SortOrder.next(action.value.sortOrder);
                 return item.sorted = true;
             });
             return opts;
@@ -57,8 +76,7 @@ export function heads(state = headOptions, action) {
     }
 }
 
-function comparator(property) {
-    let sortOrder = 1;
+function comparator(property, sortOrder) {
     return function (a, b) {
         let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
         return result * sortOrder;
