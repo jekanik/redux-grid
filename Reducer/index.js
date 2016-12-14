@@ -31,6 +31,10 @@ const headOptions = [
     {name: "Group", sortKey: "group", sorted: false, sortOrder: SortOrder.NO}
 ];
 
+function calculatePercent(cost, salary) {
+    return Math.round((cost / salary) * 10000) / 100;
+}
+
 export function grid(state = gridRecords, action) {
     switch (action.type) {
         case types.SORT: {
@@ -40,7 +44,18 @@ export function grid(state = gridRecords, action) {
             return newState;
         }
         case types.EDIT: {
-            return state;
+            let newState = [...state];
+            let newRecord = action.value.newRecord;
+            newRecord.percent = calculatePercent(newRecord.cost, action.value.salary);
+            newState[action.value.index] = newRecord;
+            return newState;
+        }
+        case types.ADD: {
+            let newState = [...state];
+            let newRecord = action.value.newRecord;
+            newRecord.percent = calculatePercent(newRecord.cost, action.value.salary);
+            newState.push(newRecord);
+            return newState;
         }
         case types.REMOVE: {
             let newState = [...state];
@@ -50,7 +65,7 @@ export function grid(state = gridRecords, action) {
         case types.CHANGE_SALARY: {
             let salary = action.value;
             return state.map(function (item) {
-                item.percent = Math.round((item.cost / salary) * 10000) / 100;
+                item.percent = calculatePercent(item.cost, salary);
                 return item;
             });
         }
@@ -76,6 +91,16 @@ export function heads(state = headOptions, action) {
     }
 }
 
+export function salary(state = 0, action) {
+    switch (action.type) {
+        case types.CHANGE_SALARY: {
+            return action.value;
+        }
+        default:
+            return state;
+    }
+}
+
 function comparator(property, sortOrder) {
     return function (a, b) {
         let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
@@ -84,5 +109,5 @@ function comparator(property, sortOrder) {
 }
 
 export const rootReducer = combineReducers({
-    grid, heads
+    grid, heads, salary
 });

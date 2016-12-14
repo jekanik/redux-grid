@@ -8,18 +8,28 @@ class GridComponent extends React.Component {
         super();
     }
 
-    handleSort(head) {
+    sortRecords(head) {
         let {dispatch} = this.props;
         dispatch(action.sortBy(head));
     }
 
-    handleRecordEdit(index) {
-        this.refs.recordModal.setState({show: true});
+    editRecord(index, record) {
         let {dispatch} = this.props;
-        dispatch(action.edit(index));
+        let {salary} = this.props;
+        this.refs.recordModal.show(record, function (newRecord) {
+            dispatch(action.edit(index, newRecord, salary));
+        });
     }
 
-    handleRecordDelete(index) {
+    addRecord() {
+        let {dispatch} = this.props;
+        let {salary} = this.props;
+        this.refs.recordModal.show(null, function (newRecord) {
+            dispatch(action.add(newRecord, salary));
+        });
+    }
+
+    deleteRecord(index) {
         let {dispatch} = this.props;
         dispatch(action.remove(index));
     }
@@ -31,11 +41,11 @@ class GridComponent extends React.Component {
 
     render() {
         let records = this.props.records.map((record, index) => {
-            return <GridRecord record={record} key={index} onEdit={this.handleRecordEdit.bind(this, index)}
-                               onDelete={this.handleRecordDelete.bind(this, index)}/>
+            return <GridRecord record={record} key={index} onEdit={this.editRecord.bind(this, index, record)}
+                               onDelete={this.deleteRecord.bind(this, index)}/>
         });
         let heads = this.props.heads.map((head, index) => {
-            return <HeadCell config={head} key={index} onSort={this.handleSort.bind(this, head)}/>
+            return <HeadCell config={head} key={index} onSort={this.sortRecords.bind(this, head)}/>
         });
         return (
             <div style={{width: 300, height: 300, padding: 20}}>
@@ -50,7 +60,9 @@ class GridComponent extends React.Component {
                     </tbody>
                 </table>
                 <div>
-                    <input type="number" placeholder="Salary" onChange={this.changeSalary.bind(this)}/>
+                    <label>Salary <input type="number" placeholder="Salary" defaultValue={this.props.salary}
+                                         onChange={this.changeSalary.bind(this)}/></label>
+                    <button onClick={this.addRecord.bind(this)}>Add</button>
                 </div>
                 <RecordModal ref="recordModal"/>
             </div>
@@ -65,7 +77,8 @@ GridComponent.propTypes = {
 function mapStateToProps(state) {
     return {
         records: state.grid,
-        heads: state.heads
+        heads: state.heads,
+        salary: state.salary
     }
 }
 

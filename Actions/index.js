@@ -7,10 +7,17 @@ export function sortBy(head) {
     };
 }
 
-export function edit(index) {
+export function edit(index, newRecord, salary) {
     return {
         type: types.EDIT,
-        value: index
+        value: {index, newRecord, salary}
+    };
+}
+
+export function add(newRecord, salary) {
+    return {
+        type: types.ADD,
+        value: {newRecord, salary}
     };
 }
 
