@@ -64,6 +64,7 @@ export function grid(state = gridRecords, action) {
         }
         case types.CHANGE_SALARY: {
             let salary = action.value;
+            if (!isValidSalary(salary)) return [...state];
             return state.map(function (item) {
                 item.percent = calculatePercent(item.cost, salary);
                 return item;
@@ -91,14 +92,21 @@ export function heads(state = headOptions, action) {
     }
 }
 
-export function salary(state = 0, action) {
+export function salary(state = 1, action) {
     switch (action.type) {
         case types.CHANGE_SALARY: {
-            return action.value;
+            let newState = state;
+            let salary = action.value;
+            if (isValidSalary(salary)) newState = salary;
+            return newState;
         }
         default:
             return state;
     }
+}
+
+function isValidSalary(salary) {
+    return salary && !isNaN(salary) && parseInt(salary) > 0 && salary.length > 0 && salary.length < 20;
 }
 
 function comparator(property, sortOrder) {

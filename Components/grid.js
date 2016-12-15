@@ -48,7 +48,7 @@ class GridComponent extends React.Component {
             return <HeadCell config={head} key={index} onSort={this.sortRecords.bind(this, head)}/>
         });
         return (
-            <div style={{width: 300, height: 300, padding: 20}}>
+            <div className="grid-component">
                 <table className="table table-condensed table-bordered">
                     <thead>
                     <tr>
@@ -60,7 +60,9 @@ class GridComponent extends React.Component {
                     </tbody>
                 </table>
                 <div>
-                    <label>Salary <input type="number" placeholder="Salary" defaultValue={this.props.salary}
+                    <label>Salary <input type="number"
+                                         defaultValue={this.props.salary}
+                                         value={this.props.salary}
                                          onChange={this.changeSalary.bind(this)}/></label>
                     <button onClick={this.addRecord.bind(this)}>Add</button>
                 </div>

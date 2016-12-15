@@ -13,3 +13,9 @@ th {
 .buttons button {
     margin-right: 5px;
 }
+
+.grid-component {
+    width: 300px;
+    height: 300px;
+    padding: 20px;
+}
