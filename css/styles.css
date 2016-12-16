@@ -19,3 +19,9 @@ th {
     height: 300px;
     padding: 20px;
 }
+
+.validated-input .error-msg {
+    font-size: 12px;
+    font-weight: normal;
+    color: red;
+}

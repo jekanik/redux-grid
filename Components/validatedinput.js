@@ -7,13 +7,15 @@ export default class ValidatedInput extends React.Component {
 
     render() {
         return (
-            <label>{this.props.label}
-                <input ref="input" name={this.props.name} type={this.props.type} defaultValue={this.props.value}
-                       onChange={this.props.onChange}/>
-                {
-                    this.props.invalid && <span className="errorMsg">{this.props.errorMsg}</span>
-                }
-            </label>
+            <div className="validated-input">
+                <label>{this.props.label}
+                    <input ref="input" name={this.props.name} type={this.props.type} defaultValue={this.props.value}
+                           onChange={this.props.onChange}/>
+                    {
+                        this.props.invalid && <span className="error-msg">{this.props.errorMsg}</span>
+                    }
+                </label>
+            </div>
         );
     }
 }

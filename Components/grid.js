@@ -61,7 +61,6 @@ class GridComponent extends React.Component {
                 </table>
                 <div>
                     <label>Salary <input type="number"
-                                         defaultValue={this.props.salary}
                                          value={this.props.salary}
                                          onChange={this.changeSalary.bind(this)}/></label>
                     <button onClick={this.addRecord.bind(this)}>Add</button>
