@@ -88,7 +88,7 @@ export function heads(state = headOptions, action) {
             return opts;
         }
         default:
-            return headOptions;
+            return state;
     }
 }
 
