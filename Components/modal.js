@@ -56,11 +56,11 @@ export default class RecordModal extends React.Component {
                                         value={record.name}
                                         onChange={
                                             this.validate.bind(this, function (value) {
-                                                return value && value.length > 5 && value.length < 25;
+                                                return value && value.length > 1 && value.length < 25;
                                             })
                                         }
                                         invalid={this.state.errors["name"]}
-                                        errorMsg="Name length must be >5 and <25 characters"/>
+                                        errorMsg="Name length must be >1 and <25 characters"/>
                         <ValidatedInput name="cost"
                                         ref="costInput"
                                         label="Cost "
